@@ -10,9 +10,7 @@
 		C53EB90028F754C60088F96F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53EB8FF28F754C60088F96F /* AppDelegate.swift */; };
 		C53EB90228F754C60088F96F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53EB90128F754C60088F96F /* SceneDelegate.swift */; };
 		C53EB90428F754C60088F96F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53EB90328F754C60088F96F /* ViewController.swift */; };
-		C53EB90728F754C60088F96F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C53EB90528F754C60088F96F /* Main.storyboard */; };
 		C53EB90928F754C70088F96F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C53EB90828F754C70088F96F /* Assets.xcassets */; };
-		C53EB90C28F754C70088F96F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C53EB90A28F754C70088F96F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,9 +18,7 @@
 		C53EB8FF28F754C60088F96F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C53EB90128F754C60088F96F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C53EB90328F754C60088F96F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C53EB90628F754C60088F96F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C53EB90828F754C70088F96F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C53EB90B28F754C70088F96F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C53EB90D28F754C70088F96F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,15 +52,53 @@
 		C53EB8FE28F754C60088F96F /* Multithreading Brute force HW */ = {
 			isa = PBXGroup;
 			children = (
-				C53EB8FF28F754C60088F96F /* AppDelegate.swift */,
-				C53EB90128F754C60088F96F /* SceneDelegate.swift */,
-				C53EB90328F754C60088F96F /* ViewController.swift */,
-				C53EB90528F754C60088F96F /* Main.storyboard */,
-				C53EB90828F754C70088F96F /* Assets.xcassets */,
-				C53EB90A28F754C70088F96F /* LaunchScreen.storyboard */,
-				C53EB90D28F754C70088F96F /* Info.plist */,
+				C53EB91328F755F30088F96F /* Sources */,
+				C53EB91428F755FC0088F96F /* Resources */,
 			);
 			path = "Multithreading Brute force HW";
+			sourceTree = "<group>";
+		};
+		C53EB91328F755F30088F96F /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				C53EB91528F7560F0088F96F /* App */,
+				C53EB91728F757390088F96F /* ViewController */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		C53EB91428F755FC0088F96F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C53EB90828F754C70088F96F /* Assets.xcassets */,
+				C53EB91628F756210088F96F /* Configuration */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C53EB91528F7560F0088F96F /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C53EB90128F754C60088F96F /* SceneDelegate.swift */,
+				C53EB8FF28F754C60088F96F /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		C53EB91628F756210088F96F /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				C53EB90D28F754C70088F96F /* Info.plist */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		C53EB91728F757390088F96F /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C53EB90328F754C60088F96F /* ViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,9 +159,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C53EB90C28F754C70088F96F /* LaunchScreen.storyboard in Resources */,
 				C53EB90928F754C70088F96F /* Assets.xcassets in Resources */,
-				C53EB90728F754C60088F96F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,25 +177,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		C53EB90528F754C60088F96F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C53EB90628F754C60088F96F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		C53EB90A28F754C70088F96F /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C53EB90B28F754C70088F96F /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C53EB90E28F754C70088F96F /* Debug */ = {
@@ -289,10 +302,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N2XAP4CLZT;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Multithreading Brute force HW/Info.plist";
+				INFOPLIST_FILE = "Multithreading Brute force HW/Resources/Configuration/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -317,10 +329,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N2XAP4CLZT;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Multithreading Brute force HW/Info.plist";
+				INFOPLIST_FILE = "Multithreading Brute force HW/Resources/Configuration/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
