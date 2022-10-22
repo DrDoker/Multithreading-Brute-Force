@@ -42,6 +42,15 @@ class ViewController: UIViewController {
         return button
     }()
 
+    private lazy var passwordLengthSlider: UISlider = {
+        let slider = UISlider()
+        slider.minimumValue = 2
+        slider.maximumValue = 10
+        slider.minimumTrackTintColor = .systemYellow
+        slider.maximumTrackTintColor = .white
+        return slider
+    }()
+
     private lazy var randomPasswordButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Random", for: .normal)
@@ -81,6 +90,7 @@ class ViewController: UIViewController {
         view.addSubview(passwordTextField)
         view.addSubview(startButton)
         view.addSubview(randomPasswordButton)
+        view.addSubview(passwordLengthSlider)
         view.addSubview(changeViewColorButton)
     }
 
@@ -111,9 +121,16 @@ class ViewController: UIViewController {
             make.width.equalTo(150)
         }
 
+        passwordLengthSlider.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.top.equalTo(randomPasswordButton.snp.bottom).offset(10)
+            make.height.equalTo(50)
+            make.width.equalTo(200)
+        }
+
         changeViewColorButton.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.centerY.equalTo(view).offset(250)
+            make.centerY.equalTo(view).offset(290)
             make.height.equalTo(50)
             make.width.equalTo(150)
         }
@@ -131,7 +148,8 @@ class ViewController: UIViewController {
 
     @objc func randomPasswordButtonPressed(sender: UIButton) {
         textLable.text = "Сгенирирован рандомный пароль"
-        passwordTextField.text = generateRandomPass(length: 5)
+        let length = Int(passwordLengthSlider.value)
+        passwordTextField.text = generateRandomPass(length: length)
     }
 
     // MARK: - Logic
