@@ -42,6 +42,14 @@ class ViewController: UIViewController {
         return button
     }()
 
+    private lazy var passwordLengthLable: UILabel = {
+        let lable = UILabel()
+        lable.text = "0"
+        lable.textColor = .white
+        lable.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        return lable
+    }()
+
     private lazy var passwordLengthSlider: UISlider = {
         let slider = UISlider()
         slider.minimumValue = 2
@@ -71,6 +79,14 @@ class ViewController: UIViewController {
         return button
     }()
 
+    private lazy var randomStack : UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 20
+        return stackView
+    }()
+
+
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -89,9 +105,16 @@ class ViewController: UIViewController {
         view.addSubview(textLable)
         view.addSubview(passwordTextField)
         view.addSubview(startButton)
-        view.addSubview(randomPasswordButton)
-        view.addSubview(passwordLengthSlider)
+        view.addSubview(randomStack)
         view.addSubview(changeViewColorButton)
+
+        randomStack.addArrangedSubview(passwordLengthLable)
+        randomStack.addArrangedSubview(passwordLengthSlider)
+        randomStack.addArrangedSubview(randomPasswordButton)
+
+
+
+
     }
 
     private func setupLayout() {
@@ -115,24 +138,22 @@ class ViewController: UIViewController {
         }
 
         randomPasswordButton.snp.makeConstraints { make in
-            make.centerX.equalTo(view)
-            make.centerY.equalTo(view).offset(170)
             make.height.equalTo(50)
-            make.width.equalTo(150)
+            make.width.equalTo(100)
         }
 
-        passwordLengthSlider.snp.makeConstraints { make in
-            make.centerX.equalTo(view)
-            make.top.equalTo(randomPasswordButton.snp.bottom).offset(10)
-            make.height.equalTo(50)
-            make.width.equalTo(200)
+        randomStack.snp.makeConstraints { make in
+            make.left.equalTo(view).offset(30)
+            make.right.equalTo(view).offset(-30)
+            make.top.equalTo(startButton.snp.bottom).offset(20)
+            make.height.equalTo(40)
         }
 
         changeViewColorButton.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.centerY.equalTo(view).offset(290)
-            make.height.equalTo(50)
-            make.width.equalTo(150)
+            make.bottom.equalTo(view).offset(-40)
+            make.height.equalTo(40)
+            make.width.equalTo(120)
         }
     }
 
