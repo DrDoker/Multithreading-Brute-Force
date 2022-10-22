@@ -42,6 +42,16 @@ class ViewController: UIViewController {
         return button
     }()
 
+    private lazy var randomPasswordButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Random", for: .normal)
+        button.backgroundColor = .systemYellow
+        button.tintColor = .black
+        button.layer.cornerRadius = 15
+        button.addTarget(self, action: #selector(randomPasswordButtonPressed), for: .touchUpInside)
+        return button
+    }()
+
     private lazy var changeViewColorButton : UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Change Color", for: .normal)
@@ -70,6 +80,7 @@ class ViewController: UIViewController {
         view.addSubview(textLable)
         view.addSubview(passwordTextField)
         view.addSubview(startButton)
+        view.addSubview(randomPasswordButton)
         view.addSubview(changeViewColorButton)
     }
 
@@ -93,9 +104,16 @@ class ViewController: UIViewController {
             make.width.equalTo(150)
         }
 
-        changeViewColorButton.snp.makeConstraints { make in
+        randomPasswordButton.snp.makeConstraints { make in
             make.centerX.equalTo(view)
             make.centerY.equalTo(view).offset(170)
+            make.height.equalTo(50)
+            make.width.equalTo(150)
+        }
+
+        changeViewColorButton.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view).offset(250)
             make.height.equalTo(50)
             make.width.equalTo(150)
         }
@@ -108,6 +126,10 @@ class ViewController: UIViewController {
     }
 
     @objc func startButtonPressed(sender: UIButton) {
+        textLable.text = "Coming soon"
+    }
+
+    @objc func randomPasswordButtonPressed(sender: UIButton) {
         textLable.text = "Сгенирирован рандомный пароль"
         passwordTextField.text = generateRandomPass(length: 5)
     }
