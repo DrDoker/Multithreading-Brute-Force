@@ -12,13 +12,43 @@ class ViewController: UIViewController {
 
     // MARK: - Outlets
 
-    private lazy var button: UIButton = {
+    private lazy var textLable: UILabel = {
+        let lable = UILabel()
+        lable.textColor = .red
+        lable.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        return lable
+    }()
+
+    private lazy var passwordTextField: UITextField = {
+        let textField = UITextField()
+        textField.attributedPlaceholder = NSAttributedString(
+            string: "Enter your password",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        textField.textAlignment = .center
+        textField.isSecureTextEntry = true
+        textField.layer.cornerRadius = 15
+        textField.backgroundColor = .systemGray3
+        textField.clearButtonMode = .whileEditing
+        return textField
+    }()
+
+    private lazy var startButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Кнопка", for: .normal)
+        button.setTitle("Start", for: .normal)
         button.backgroundColor = .systemYellow
         button.tintColor = .black
         button.layer.cornerRadius = 15
-        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(startButtonPressed), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var changeViewColorButton : UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Change Color", for: .normal)
+        button.backgroundColor = .systemYellow
+        button.tintColor = .black
+        button.layer.cornerRadius = 15
+        button.addTarget(self, action: #selector(changeViewColorButtonPressed), for: .touchUpInside)
         return button
     }()
 
@@ -36,21 +66,48 @@ class ViewController: UIViewController {
     // MARK: - Setup
 
     private func setupHierarchy() {
-        view.addSubview(button)
+        view.addSubview(textLable)
+        view.addSubview(passwordTextField)
+        view.addSubview(startButton)
+        view.addSubview(changeViewColorButton)
     }
 
     private func setupLayout() {
-        button.snp.makeConstraints { make in
+
+        textLable.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view).offset(-100)
+        }
+
+        passwordTextField.snp.makeConstraints { make in
             make.center.equalTo(view)
+            make.height.equalTo(40)
+            make.width.equalTo(200)
+        }
+
+        startButton.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view).offset(100)
             make.height.equalTo(50)
-            make.width.equalTo(100)
+            make.width.equalTo(150)
+        }
+
+        changeViewColorButton.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view).offset(170)
+            make.height.equalTo(50)
+            make.width.equalTo(150)
         }
     }
 
     // MARK: - Actions
 
-    @objc func buttonPressed(sender: UIButton) {
+    @objc func changeViewColorButtonPressed(sender: UIButton) {
         isBlack.toggle()
+    }
+
+    @objc func startButtonPressed(sender: UIButton) {
+        print("startButtonPressed")
     }
 
     // MARK: - Logic
