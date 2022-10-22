@@ -25,7 +25,7 @@ class ViewController: UIViewController {
             string: "Enter your password",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         textField.textAlignment = .center
-        textField.isSecureTextEntry = true
+        //   textField.isSecureTextEntry = true
         textField.layer.cornerRadius = 15
         textField.backgroundColor = .systemGray3
         textField.clearButtonMode = .whileEditing
@@ -60,7 +60,8 @@ class ViewController: UIViewController {
         setupHierarchy()
         setupLayout()
 
-        self.bruteForce(passwordToUnlock: "1")
+        self.isBlack = true
+
     }
 
     // MARK: - Setup
@@ -107,7 +108,8 @@ class ViewController: UIViewController {
     }
 
     @objc func startButtonPressed(sender: UIButton) {
-        print("startButtonPressed")
+        textLable.text = "Сгенирирован рандомный пароль"
+        passwordTextField.text = generateRandomPass(length: 5)
     }
 
     // MARK: - Logic
@@ -123,7 +125,7 @@ class ViewController: UIViewController {
     }
 
     func bruteForce(passwordToUnlock: String) {
-        let ALLOWED_CHARACTERS:   [String] = String().printable.map { String($0) }
+        let ALLOWED_CHARACTERS: [String] = String().printable.map { String($0) }
 
         var password: String = ""
 
@@ -163,6 +165,18 @@ class ViewController: UIViewController {
         }
 
         return str
+    }
+
+    func generateRandomPass(length: Int) -> String {
+        let base = String().printable
+        var password = ""
+
+        for _ in 0..<length {
+            let randomValue = arc4random_uniform(UInt32(base.count))
+            password += "\(base[base.index(base.startIndex, offsetBy: Int(randomValue))])"
+        }
+
+        return password
     }
 }
 
