@@ -42,6 +42,34 @@ class ViewController: UIViewController {
         return button
     }()
 
+    private lazy var passwordLengthLable: UILabel = {
+        let lable = UILabel()
+        lable.text = "2"
+        lable.textColor = .white
+        lable.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        return lable
+    }()
+
+    private lazy var passwordLengthSlider: UISlider = {
+        let slider = UISlider()
+        slider.minimumValue = 2
+        slider.maximumValue = 10
+        slider.minimumTrackTintColor = .systemYellow
+        slider.maximumTrackTintColor = .white
+        slider.addTarget(self, action: #selector(sliderValueDidChange), for: .valueChanged)
+        return slider
+    }()
+
+    private lazy var randomPasswordButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Random", for: .normal)
+        button.backgroundColor = .systemYellow
+        button.tintColor = .black
+        button.layer.cornerRadius = 15
+        button.addTarget(self, action: #selector(randomPasswordButtonPressed), for: .touchUpInside)
+        return button
+    }()
+
     private lazy var changeViewColorButton : UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Change Color", for: .normal)
@@ -52,6 +80,14 @@ class ViewController: UIViewController {
         return button
     }()
 
+    private lazy var randomStack : UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 20
+        return stackView
+    }()
+
+
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -60,7 +96,8 @@ class ViewController: UIViewController {
         setupHierarchy()
         setupLayout()
 
-        self.bruteForce(passwordToUnlock: "1")
+        self.isBlack = true
+
     }
 
     // MARK: - Setup
@@ -69,7 +106,12 @@ class ViewController: UIViewController {
         view.addSubview(textLable)
         view.addSubview(passwordTextField)
         view.addSubview(startButton)
+        view.addSubview(randomStack)
         view.addSubview(changeViewColorButton)
+
+        randomStack.addArrangedSubview(passwordLengthLable)
+        randomStack.addArrangedSubview(passwordLengthSlider)
+        randomStack.addArrangedSubview(randomPasswordButton)
     }
 
     private func setupLayout() {
@@ -92,11 +134,23 @@ class ViewController: UIViewController {
             make.width.equalTo(150)
         }
 
+        randomPasswordButton.snp.makeConstraints { make in
+            make.height.equalTo(50)
+            make.width.equalTo(100)
+        }
+
+        randomStack.snp.makeConstraints { make in
+            make.left.equalTo(view).offset(30)
+            make.right.equalTo(view).offset(-30)
+            make.top.equalTo(startButton.snp.bottom).offset(20)
+            make.height.equalTo(40)
+        }
+
         changeViewColorButton.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.centerY.equalTo(view).offset(170)
-            make.height.equalTo(50)
-            make.width.equalTo(150)
+            make.bottom.equalTo(view).offset(-40)
+            make.height.equalTo(40)
+            make.width.equalTo(120)
         }
     }
 
@@ -107,7 +161,18 @@ class ViewController: UIViewController {
     }
 
     @objc func startButtonPressed(sender: UIButton) {
-        print("startButtonPressed")
+        textLable.text = "Coming soon"
+    }
+
+    @objc func randomPasswordButtonPressed(sender: UIButton) {
+        textLable.text = "Сгенирирован рандомный пароль"
+        let length = Int(passwordLengthSlider.value)
+        passwordTextField.text = generateRandomPass(length: length)
+    }
+
+    @objc func sliderValueDidChange(sender: UISlider) {
+        let intValue = Int(sender.value)
+        passwordLengthLable.text = String(intValue)
     }
 
     // MARK: - Logic
@@ -123,7 +188,7 @@ class ViewController: UIViewController {
     }
 
     func bruteForce(passwordToUnlock: String) {
-        let ALLOWED_CHARACTERS:   [String] = String().printable.map { String($0) }
+        let ALLOWED_CHARACTERS: [String] = String().printable.map { String($0) }
 
         var password: String = ""
 
@@ -163,6 +228,18 @@ class ViewController: UIViewController {
         }
 
         return str
+    }
+
+    func generateRandomPass(length: Int) -> String {
+        let base = String().printable
+        var password = ""
+
+        for _ in 0..<length {
+            let randomValue = arc4random_uniform(UInt32(base.count))
+            password += "\(base[base.index(base.startIndex, offsetBy: Int(randomValue))])"
+        }
+
+        return password
     }
 }
 
