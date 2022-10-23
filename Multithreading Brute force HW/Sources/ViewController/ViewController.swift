@@ -10,9 +10,56 @@ import SnapKit
 
 class ViewController: UIViewController {
 
+    var isBlack: Bool = false {
+        didSet {
+            if isBlack {
+                view.backgroundColor = .black
+                statusLable.textColor = .red
+                textLable.textColor = .red
+                activityIndicator.color = .red
+                hackerImage.tintColor = .white
+
+            } else {
+                view.backgroundColor = .systemGray2
+                statusLable.textColor = .black
+                textLable.textColor = .black
+                activityIndicator.color = .black
+                hackerImage.tintColor = .black
+            }
+        }
+    }
+
+    var isStarted: Bool = false {
+        didSet {
+            if isStarted {
+                statusLable.text = "Взлом пароля 😈😈😈"
+                startButton.backgroundColor = .systemRed
+                startButton.setTitle("Stop", for: .normal)
+                randomStack.isHidden = true
+            } else {
+                statusLable.text = ""
+                startButton.backgroundColor = .systemGreen
+                startButton.setTitle("Start", for: .normal)
+                randomStack.isHidden = false
+            }
+        }
+    }
+
     // MARK: - Outlets
 
+    private lazy var hackerImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "hacker")
+        return imageView
+    }()
+
     private lazy var textLable: UILabel = {
+        let lable = UILabel()
+        lable.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        return lable
+    }()
+
+    private lazy var statusLable: UILabel = {
         let lable = UILabel()
         lable.textColor = .red
         lable.font = UIFont.systemFont(ofSize: 20, weight: .medium)
@@ -23,27 +70,26 @@ class ViewController: UIViewController {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(
             string: "Введие пароль",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         textField.textAlignment = .center
         textField.isSecureTextEntry = true
         textField.layer.cornerRadius = 15
-        textField.backgroundColor = .systemGray3
+        textField.backgroundColor = .white
         textField.addTarget(self, action: #selector(editingChanged(_:)), for: .editingChanged)
         return textField
     }()
 
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.color = .red
         return activityIndicator
     }()
 
     private lazy var startButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Start", for: .normal)
-        button.backgroundColor = .systemYellow
-        button.tintColor = .black
         button.layer.cornerRadius = 15
+        button.backgroundColor = .systemGreen
+        button.tintColor = .black
         button.addTarget(self, action: #selector(startButtonPressed), for: .touchUpInside)
         return button
     }()
@@ -69,9 +115,9 @@ class ViewController: UIViewController {
     private lazy var randomPasswordButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Random", for: .normal)
+        button.layer.cornerRadius = 15
         button.backgroundColor = .systemYellow
         button.tintColor = .black
-        button.layer.cornerRadius = 15
         button.addTarget(self, action: #selector(randomPasswordButtonPressed), for: .touchUpInside)
         return button
     }()
@@ -79,9 +125,9 @@ class ViewController: UIViewController {
     private lazy var changeViewColorButton : UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Change Color", for: .normal)
+        button.layer.cornerRadius = 15
         button.backgroundColor = .systemYellow
         button.tintColor = .black
-        button.layer.cornerRadius = 15
         button.addTarget(self, action: #selector(changeViewColorButtonPressed), for: .touchUpInside)
         return button
     }()
@@ -102,13 +148,15 @@ class ViewController: UIViewController {
         setupHierarchy()
         setupLayout()
 
-        self.isBlack = true
+        self.isBlack.toggle()
 
     }
 
     // MARK: - Setup
 
     private func setupHierarchy() {
+        view.addSubview(hackerImage)
+        view.addSubview(statusLable)
         view.addSubview(textLable)
         view.addSubview(passwordTextField)
         view.addSubview(startButton)
@@ -123,38 +171,54 @@ class ViewController: UIViewController {
 
     private func setupLayout() {
 
-        textLable.snp.makeConstraints { make in
+        hackerImage.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.centerY.equalTo(view).offset(-120)
+            make.bottom.equalTo(statusLable.snp.top).offset(-20)
+            make.height.equalTo(130)
+            make.width.equalTo(130)
         }
 
-        activityIndicator.snp.makeConstraints { make in
+        statusLable.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.centerY.equalTo(view).offset(-60)
+            make.bottom.equalTo(textLable.snp.top).offset(-10)
+            make.height.equalTo(40)
+        }
+
+        textLable.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.bottom.equalTo(passwordTextField.snp.top).offset(-40)
+            make.height.equalTo(40)
         }
 
         passwordTextField.snp.makeConstraints { make in
-            make.center.equalTo(view)
+            make.centerY.equalTo(view)
+            make.left.equalTo(view).offset(30)
+            make.right.equalTo(view).offset(-30)
             make.height.equalTo(40)
-            make.width.equalTo(200)
         }
 
-        startButton.snp.makeConstraints { make in
-            make.centerX.equalTo(view)
-            make.centerY.equalTo(view).offset(100)
-            make.height.equalTo(50)
-            make.width.equalTo(150)
+        randomStack.snp.makeConstraints { make in
+            make.left.equalTo(view).offset(30)
+            make.right.equalTo(view).offset(-30)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(30)
+            make.height.equalTo(40)
         }
 
         randomPasswordButton.snp.makeConstraints { make in
             make.width.equalTo(100)
         }
 
-        randomStack.snp.makeConstraints { make in
+        activityIndicator.snp.makeConstraints { make in
             make.left.equalTo(view).offset(30)
             make.right.equalTo(view).offset(-30)
-            make.top.equalTo(startButton.snp.bottom).offset(20)
-            make.height.equalTo(40)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(30)
+        }
+
+        startButton.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view).offset(180)
+            make.height.equalTo(50)
+            make.width.equalTo(150)
         }
 
         changeViewColorButton.snp.makeConstraints { make in
@@ -207,30 +271,6 @@ class ViewController: UIViewController {
     }
 
     // MARK: - Logic
-
-    var isBlack: Bool = false {
-        didSet {
-            if isBlack {
-                self.view.backgroundColor = .black
-            } else {
-                self.view.backgroundColor = .white
-            }
-        }
-    }
-
-    var isStarted: Bool = false {
-        didSet {
-            if isStarted {
-                startButton.backgroundColor = .red
-                startButton.setTitle("Stop", for: .normal)
-                randomStack.isHidden = true
-            } else {
-                startButton.backgroundColor = .systemYellow
-                startButton.setTitle("Start", for: .normal)
-                randomStack.isHidden = false
-            }
-        }
-    }
 
     func bruteForce(passwordToUnlock: String) {
         let ALLOWED_CHARACTERS: [String] = String().printable.map { String($0) }
