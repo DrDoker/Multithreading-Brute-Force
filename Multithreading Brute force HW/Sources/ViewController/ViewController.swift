@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(
-            string: "Enter your password",
+            string: "Введие пароль",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         textField.textAlignment = .center
         textField.isSecureTextEntry = true
@@ -30,6 +30,12 @@ class ViewController: UIViewController {
         textField.backgroundColor = .systemGray3
         textField.addTarget(self, action: #selector(editingChanged(_:)), for: .editingChanged)
         return textField
+    }()
+
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .red
+        return activityIndicator
     }()
 
     private lazy var startButton: UIButton = {
@@ -44,7 +50,7 @@ class ViewController: UIViewController {
 
     private lazy var passwordLengthLable: UILabel = {
         let lable = UILabel()
-        lable.text = "2"
+        lable.text = "3"
         lable.textColor = .white
         lable.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         return lable
@@ -52,7 +58,7 @@ class ViewController: UIViewController {
 
     private lazy var passwordLengthSlider: UISlider = {
         let slider = UISlider()
-        slider.minimumValue = 2
+        slider.minimumValue = 3
         slider.maximumValue = 10
         slider.minimumTrackTintColor = .systemYellow
         slider.maximumTrackTintColor = .white
@@ -108,6 +114,7 @@ class ViewController: UIViewController {
         view.addSubview(startButton)
         view.addSubview(randomStack)
         view.addSubview(changeViewColorButton)
+        view.addSubview(activityIndicator)
 
         randomStack.addArrangedSubview(passwordLengthLable)
         randomStack.addArrangedSubview(passwordLengthSlider)
@@ -118,7 +125,12 @@ class ViewController: UIViewController {
 
         textLable.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.centerY.equalTo(view).offset(-100)
+            make.centerY.equalTo(view).offset(-120)
+        }
+
+        activityIndicator.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view).offset(-60)
         }
 
         passwordTextField.snp.makeConstraints { make in
@@ -177,11 +189,12 @@ class ViewController: UIViewController {
             }
 
             bruteForce.perform()
+            isStarted.toggle()
+            activityIndicator.startAnimating()
+
         } else {
-            textLable.text = "Введите пароль для взлома"
+            textLable.text = "Введите пароль / Пароль известен"
         }
-
-
     }
 
     @objc func randomPasswordButtonPressed(sender: UIButton) {
@@ -208,12 +221,36 @@ class ViewController: UIViewController {
         }
     }
 
+    var isStarted: Bool = false {
+        didSet {
+            if isStarted {
+                startButton.backgroundColor = .red
+                startButton.setTitle("Stop", for: .normal)
+                randomStack.isHidden = true
+            } else {
+                startButton.backgroundColor = .systemYellow
+                startButton.setTitle("Start", for: .normal)
+                randomStack.isHidden = false
+            }
+        }
+    }
+
+
     func bruteForce(passwordToUnlock: String) {
         let ALLOWED_CHARACTERS: [String] = String().printable.map { String($0) }
 
         var password: String = ""
 
         while password != passwordToUnlock {
+
+            if !isStarted {
+                DispatchQueue.main.async {
+                    self.textLable.text = "Подбор был остановлен"
+                    self.activityIndicator.stopAnimating()
+                }
+                return
+            }
+
             password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
 
             DispatchQueue.main.async {
@@ -222,8 +259,10 @@ class ViewController: UIViewController {
         }
 
         DispatchQueue.main.async {
-            self.textLable.text = "Пароль взломан!"
+            self.textLable.text = "Пароль взломан)"
             self.passwordTextField.isSecureTextEntry = false
+            self.activityIndicator.stopAnimating()
+            self.isStarted.toggle()
         }
     }
 
