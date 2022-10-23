@@ -14,12 +14,14 @@ class ViewController: UIViewController {
         didSet {
             if isBlack {
                 view.backgroundColor = .black
+                statusLable.textColor = .red
                 textLable.textColor = .red
                 activityIndicator.color = .red
                 hackerImage.tintColor = .white
 
             } else {
                 view.backgroundColor = .systemGray2
+                statusLable.textColor = .black
                 textLable.textColor = .black
                 activityIndicator.color = .black
                 hackerImage.tintColor = .black
@@ -30,10 +32,12 @@ class ViewController: UIViewController {
     var isStarted: Bool = false {
         didSet {
             if isStarted {
+                statusLable.text = "Взлом пароля 😈😈😈"
                 startButton.backgroundColor = .systemRed
                 startButton.setTitle("Stop", for: .normal)
                 randomStack.isHidden = true
             } else {
+                statusLable.text = ""
                 startButton.backgroundColor = .systemGreen
                 startButton.setTitle("Start", for: .normal)
                 randomStack.isHidden = false
@@ -50,6 +54,12 @@ class ViewController: UIViewController {
     }()
 
     private lazy var textLable: UILabel = {
+        let lable = UILabel()
+        lable.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        return lable
+    }()
+
+    private lazy var statusLable: UILabel = {
         let lable = UILabel()
         lable.textColor = .red
         lable.font = UIFont.systemFont(ofSize: 20, weight: .medium)
@@ -146,6 +156,7 @@ class ViewController: UIViewController {
 
     private func setupHierarchy() {
         view.addSubview(hackerImage)
+        view.addSubview(statusLable)
         view.addSubview(textLable)
         view.addSubview(passwordTextField)
         view.addSubview(startButton)
@@ -162,9 +173,15 @@ class ViewController: UIViewController {
 
         hackerImage.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.bottom.equalTo(textLable.snp.top).offset(-40)
+            make.bottom.equalTo(statusLable.snp.top).offset(-20)
             make.height.equalTo(130)
             make.width.equalTo(130)
+        }
+
+        statusLable.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.bottom.equalTo(textLable.snp.top).offset(-10)
+            make.height.equalTo(40)
         }
 
         textLable.snp.makeConstraints { make in
