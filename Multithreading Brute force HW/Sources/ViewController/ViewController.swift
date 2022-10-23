@@ -135,7 +135,6 @@ class ViewController: UIViewController {
         }
 
         randomPasswordButton.snp.makeConstraints { make in
-            make.height.equalTo(50)
             make.width.equalTo(100)
         }
 
@@ -161,7 +160,7 @@ class ViewController: UIViewController {
     }
 
     @objc func startButtonPressed(sender: UIButton) {
-        if passwordTextField.text != "", passwordTextField.isSecureTextEntry == true {
+        if passwordTextField.text != "", passwordTextField.isSecureTextEntry {
             let queue = DispatchQueue(label: "Pass", qos: .background, attributes: .concurrent)
 
             guard let password = passwordTextField.text else { return }
