@@ -25,7 +25,7 @@ class ViewController: UIViewController {
             string: "Enter your password",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         textField.textAlignment = .center
-        //   textField.isSecureTextEntry = true
+        textField.isSecureTextEntry = true
         textField.layer.cornerRadius = 15
         textField.backgroundColor = .systemGray3
         textField.clearButtonMode = .whileEditing
