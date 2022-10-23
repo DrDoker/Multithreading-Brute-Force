@@ -44,7 +44,7 @@ class ViewController: UIViewController {
 
     private lazy var passwordLengthLable: UILabel = {
         let lable = UILabel()
-        lable.text = "0"
+        lable.text = "2"
         lable.textColor = .white
         lable.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         return lable
@@ -56,6 +56,7 @@ class ViewController: UIViewController {
         slider.maximumValue = 10
         slider.minimumTrackTintColor = .systemYellow
         slider.maximumTrackTintColor = .white
+        slider.addTarget(self, action: #selector(sliderValueDidChange), for: .valueChanged)
         return slider
     }()
 
@@ -111,10 +112,6 @@ class ViewController: UIViewController {
         randomStack.addArrangedSubview(passwordLengthLable)
         randomStack.addArrangedSubview(passwordLengthSlider)
         randomStack.addArrangedSubview(randomPasswordButton)
-
-
-
-
     }
 
     private func setupLayout() {
@@ -171,6 +168,11 @@ class ViewController: UIViewController {
         textLable.text = "Сгенирирован рандомный пароль"
         let length = Int(passwordLengthSlider.value)
         passwordTextField.text = generateRandomPass(length: length)
+    }
+
+    @objc func sliderValueDidChange(sender: UISlider) {
+        let intValue = Int(sender.value)
+        passwordLengthLable.text = String(intValue)
     }
 
     // MARK: - Logic
