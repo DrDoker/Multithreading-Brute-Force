@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         textField.isSecureTextEntry = true
         textField.layer.cornerRadius = 15
         textField.backgroundColor = .systemGray3
-        textField.clearButtonMode = .whileEditing
+        textField.addTarget(self, action: #selector(editingChanged(_:)), for: .editingChanged)
         return textField
     }()
 
@@ -135,7 +135,6 @@ class ViewController: UIViewController {
         }
 
         randomPasswordButton.snp.makeConstraints { make in
-            make.height.equalTo(50)
             make.width.equalTo(100)
         }
 
@@ -156,18 +155,40 @@ class ViewController: UIViewController {
 
     // MARK: - Actions
 
+    @objc func editingChanged(_ textField: UITextField) {
+        textLable.text = ""
+        passwordTextField.isSecureTextEntry = true
+    }
+
     @objc func changeViewColorButtonPressed(sender: UIButton) {
         isBlack.toggle()
     }
 
     @objc func startButtonPressed(sender: UIButton) {
-        textLable.text = "Coming soon"
+        if passwordTextField.text != "", passwordTextField.isSecureTextEntry {
+            let queue = DispatchQueue(label: "Pass", qos: .background, attributes: .concurrent)
+
+            guard let password = passwordTextField.text else { return }
+
+            let bruteForce = DispatchWorkItem {
+                queue.async {
+                    self.bruteForce(passwordToUnlock: password)
+                }
+            }
+
+            bruteForce.perform()
+        } else {
+            textLable.text = "Введите пароль для взлома"
+        }
+
+
     }
 
     @objc func randomPasswordButtonPressed(sender: UIButton) {
-        textLable.text = "Сгенирирован рандомный пароль"
+        passwordTextField.isSecureTextEntry = true
         let length = Int(passwordLengthSlider.value)
         passwordTextField.text = generateRandomPass(length: length)
+        textLable.text = "Сгенирирован рандомный пароль"
     }
 
     @objc func sliderValueDidChange(sender: UISlider) {
@@ -192,15 +213,18 @@ class ViewController: UIViewController {
 
         var password: String = ""
 
-        // Will strangely ends at 0000 instead of ~~~
-        while password != passwordToUnlock { // Increase MAXIMUM_PASSWORD_SIZE value for more
+        while password != passwordToUnlock {
             password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
-            //             Your stuff here
-            print(password)
-            // Your stuff here
+
+            DispatchQueue.main.async {
+                self.textLable.text = password
+            }
         }
 
-        print(password)
+        DispatchQueue.main.async {
+            self.textLable.text = "Пароль взломан!"
+            self.passwordTextField.isSecureTextEntry = false
+        }
     }
 
     func indexOf(character: Character, _ array: [String]) -> Int {
