@@ -182,13 +182,10 @@ class ViewController: UIViewController {
 
             guard let password = passwordTextField.text else { return }
 
-            let bruteForce = DispatchWorkItem {
-                queue.async {
-                    self.bruteForce(passwordToUnlock: password)
-                }
+            queue.async {
+                self.bruteForce(passwordToUnlock: password)
             }
 
-            bruteForce.perform()
             isStarted.toggle()
             activityIndicator.startAnimating()
 
@@ -234,7 +231,6 @@ class ViewController: UIViewController {
             }
         }
     }
-
 
     func bruteForce(passwordToUnlock: String) {
         let ALLOWED_CHARACTERS: [String] = String().printable.map { String($0) }
