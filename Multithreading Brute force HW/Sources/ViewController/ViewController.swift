@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         textField.isSecureTextEntry = true
         textField.layer.cornerRadius = 15
         textField.backgroundColor = .systemGray3
-        textField.clearButtonMode = .whileEditing
+        textField.addTarget(self, action: #selector(editingChanged(_:)), for: .editingChanged)
         return textField
     }()
 
@@ -154,6 +154,11 @@ class ViewController: UIViewController {
     }
 
     // MARK: - Actions
+
+    @objc func editingChanged(_ textField: UITextField) {
+        textLable.text = ""
+        passwordTextField.isSecureTextEntry = true
+    }
 
     @objc func changeViewColorButtonPressed(sender: UIButton) {
         isBlack.toggle()
