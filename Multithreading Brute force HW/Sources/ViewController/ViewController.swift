@@ -18,7 +18,6 @@ class ViewController: UIViewController {
                 textLable.textColor = .red
                 activityIndicator.color = .red
                 hackerImage.tintColor = .white
-
             } else {
                 view.backgroundColor = .systemGray2
                 statusLable.textColor = .black
@@ -32,7 +31,7 @@ class ViewController: UIViewController {
     var isStarted: Bool = false {
         didSet {
             if isStarted {
-                statusLable.text = "Взлом пароля 😈😈😈"
+                statusLable.text = "Password cracking 😈😈😈"
                 startButton.backgroundColor = .systemRed
                 startButton.setTitle("Stop", for: .normal)
                 randomStack.isHidden = true
@@ -69,7 +68,7 @@ class ViewController: UIViewController {
     private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(
-            string: "Введие пароль",
+            string: "Enter password",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         textField.textAlignment = .center
         textField.isSecureTextEntry = true
@@ -149,7 +148,6 @@ class ViewController: UIViewController {
         setupLayout()
 
         self.isBlack.toggle()
-
     }
 
     // MARK: - Setup
@@ -254,7 +252,7 @@ class ViewController: UIViewController {
             activityIndicator.startAnimating()
 
         } else {
-            textLable.text = "Введите пароль / Пароль известен"
+            textLable.text = "Enter password / Password is known"
         }
     }
 
@@ -262,7 +260,7 @@ class ViewController: UIViewController {
         passwordTextField.isSecureTextEntry = true
         let length = Int(passwordLengthSlider.value)
         passwordTextField.text = BrutePasswordHelp.shared.generateRandomPassword(length: length)
-        textLable.text = "Сгенирирован рандомный пароль"
+        textLable.text = "Random password generated"
     }
 
     @objc func sliderValueDidChange(sender: UISlider) {
@@ -281,7 +279,7 @@ class ViewController: UIViewController {
 
             if !isStarted {
                 DispatchQueue.main.async {
-                    self.textLable.text = "Подбор был остановлен"
+                    self.textLable.text = "Password hacking stopped"
                     self.activityIndicator.stopAnimating()
                 }
                 return
@@ -295,7 +293,7 @@ class ViewController: UIViewController {
         }
         
         DispatchQueue.main.async {
-            self.textLable.text = "Пароль взломан)"
+            self.textLable.text = "Password hacked)"
             self.passwordTextField.isSecureTextEntry = false
             self.activityIndicator.stopAnimating()
             self.isStarted.toggle()

@@ -12,11 +12,11 @@ struct BrutePasswordHelp {
 
     private init() {}
 
-    func indexOf(character: Character, _ array: [String]) -> Int {
+    private func indexOf(character: Character, _ array: [String]) -> Int {
         return array.firstIndex(of: String(character)) ?? 0
     }
 
-    func characterAt(index: Int, _ array: [String]) -> Character {
+    private func characterAt(index: Int, _ array: [String]) -> Character {
         return index < array.count ? Character(array[index]) : Character("")
     }
 
