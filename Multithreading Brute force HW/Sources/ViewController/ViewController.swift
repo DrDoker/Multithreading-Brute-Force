@@ -261,7 +261,7 @@ class ViewController: UIViewController {
     @objc func randomPasswordButtonPressed(sender: UIButton) {
         passwordTextField.isSecureTextEntry = true
         let length = Int(passwordLengthSlider.value)
-        passwordTextField.text = generateRandomPass(length: length)
+        passwordTextField.text = BrutePasswordHelp.shared.generateRandomPassword(length: length)
         textLable.text = "Сгенирирован рандомный пароль"
     }
 
@@ -273,7 +273,7 @@ class ViewController: UIViewController {
     // MARK: - Logic
 
     func bruteForce(passwordToUnlock: String) {
-        let ALLOWED_CHARACTERS: [String] = String().printable.map { String($0) }
+        let allowedCharacters: [String] = String().printable.map { String($0) }
 
         var password: String = ""
 
@@ -287,55 +287,19 @@ class ViewController: UIViewController {
                 return
             }
 
-            password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
+            password = BrutePasswordHelp.shared.generateBruteForce(password, fromArray: allowedCharacters)
 
             DispatchQueue.main.async {
                 self.textLable.text = password
             }
         }
-
+        
         DispatchQueue.main.async {
             self.textLable.text = "Пароль взломан)"
             self.passwordTextField.isSecureTextEntry = false
             self.activityIndicator.stopAnimating()
             self.isStarted.toggle()
         }
-    }
-
-    func indexOf(character: Character, _ array: [String]) -> Int {
-        return array.firstIndex(of: String(character)) ?? 0
-    }
-
-    func characterAt(index: Int, _ array: [String]) -> Character {
-        return index < array.count ? Character(array[index]) : Character("")
-    }
-
-    func generateBruteForce(_ string: String, fromArray array: [String]) -> String {
-        var initialPasswordString: String = string
-
-        if initialPasswordString.count <= 0 {
-            initialPasswordString.append(characterAt(index: 0, array))
-        } else {
-            let symbol = characterAt(index: (indexOf(character: initialPasswordString.last ?? Character(""), array) + 1) % array.count, array)
-            initialPasswordString.replace(at: initialPasswordString.count - 1, with: symbol)
-
-            if indexOf(character: initialPasswordString.last ?? Character(""), array) == 0 {
-                initialPasswordString = String(generateBruteForce(String(initialPasswordString.dropLast()), fromArray: array)) + String(initialPasswordString.last ?? Character(""))
-            }
-        }
-        return initialPasswordString
-    }
-
-    func generateRandomPass(length: Int) -> String {
-        let base = String().printable
-        var password = ""
-
-        for _ in 0..<length {
-            let randomValue = arc4random_uniform(UInt32(base.count))
-            password += "\(base[base.index(base.startIndex, offsetBy: Int(randomValue))])"
-        }
-
-        return password
     }
 }
 
