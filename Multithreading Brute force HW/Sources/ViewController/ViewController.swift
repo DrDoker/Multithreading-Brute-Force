@@ -303,30 +303,27 @@ class ViewController: UIViewController {
     }
 
     func indexOf(character: Character, _ array: [String]) -> Int {
-        return array.firstIndex(of: String(character))!
+        return array.firstIndex(of: String(character)) ?? 0
     }
 
     func characterAt(index: Int, _ array: [String]) -> Character {
-        return index < array.count ? Character(array[index])
-        : Character("")
+        return index < array.count ? Character(array[index]) : Character("")
     }
 
     func generateBruteForce(_ string: String, fromArray array: [String]) -> String {
-        var str: String = string
+        var initialPasswordString: String = string
 
-        if str.count <= 0 {
-            str.append(characterAt(index: 0, array))
-        }
-        else {
-            str.replace(at: str.count - 1,
-                        with: characterAt(index: (indexOf(character: str.last!, array) + 1) % array.count, array))
+        if initialPasswordString.count <= 0 {
+            initialPasswordString.append(characterAt(index: 0, array))
+        } else {
+            let symbol = characterAt(index: (indexOf(character: initialPasswordString.last ?? Character(""), array) + 1) % array.count, array)
+            initialPasswordString.replace(at: initialPasswordString.count - 1, with: symbol)
 
-            if indexOf(character: str.last!, array) == 0 {
-                str = String(generateBruteForce(String(str.dropLast()), fromArray: array)) + String(str.last!)
+            if indexOf(character: initialPasswordString.last ?? Character(""), array) == 0 {
+                initialPasswordString = String(generateBruteForce(String(initialPasswordString.dropLast()), fromArray: array)) + String(initialPasswordString.last ?? Character(""))
             }
         }
-
-        return str
+        return initialPasswordString
     }
 
     func generateRandomPass(length: Int) -> String {
